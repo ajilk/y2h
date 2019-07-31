@@ -1,3 +1,4 @@
+```
 Out of hate for HTML
 
 NAME: 
@@ -9,4 +10,4 @@ DESCRIPTION
 EXAMPLES
 	This will output the HTML specified by the YAML file
 	$ y2h index.yaml
-
+```
