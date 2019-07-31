@@ -1,0 +1,19 @@
+components:
+  - mainHeading: &mainHeadingReference
+      type: "h1" # specifies which element it houses
+      h1: 
+        content: "Hello World"
+
+  - mainHeader: &mainHeaderReference
+      type: "div" 
+      class: "container"
+      div:
+        content: *mainHeadingReference
+
+main:
+  content:
+    type: "div"
+    div: { 
+      class: "container", 
+      content: *mainHeaderReference
+    }
