@@ -1,3 +1,4 @@
+[ in progress ]
 ```
 Out of hate for HTML
 
@@ -8,6 +9,4 @@ SYNOPSIS
 DESCRIPTION
 	y2h transcompiles YAML to HTML
 EXAMPLES
-	This will output the HTML specified by the YAML file
-	$ y2h index.yaml
 ```
