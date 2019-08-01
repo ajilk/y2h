@@ -1,72 +1,81 @@
 #!/bin/bash
 
 # Data file that needs to be transpiled to HTML
-INPUT_FILE="index.yaml"
+if [ $# -eq 0 ]; then
+	echo "usage: ./y2h.sh <datafile>.yaml"
+	exit
+fi
+INPUT_FILE="$1"
 
 html() {
 	echo "<!DOCTYPE>"
 	echo "<html>"
-	element "$1"
+	element "$1.html.+"
+	# echo "$(yq r $INPUT_FILE $1.html.+)"
 	echo "</html>"
 }
 
-head() {
+div() {
+	echo "<div>"
+	element "$1.div.+"
+	echo "</div>"
+}
+
+p() {
+	echo "<p>"
+	element "$1.p.+"
+	echo "</p>"
+}
+
+_txt() {
+	echo "$(yq r $INPUT_FILE $1._txt)"
+}
+
+a() {
+	local href="$(yq r $INPUT_FILE $1.a.href)"
+	echo "<a href=$href>"
+	element "$1.a.+"
+	echo "</a>"
+}
+
+_head() {
 	echo "<head>"
-	element "$1"
+	element "$1.head.+"
 	echo "</head>"
 }
 
 title() {
 	echo "<title>"
-	echo "`yq r $INPUT_FILE $1`"
+	element "$1.title.+"
 	echo "</title>"
 }
-
 meta() {
-	echo "<meta"
-	element "$1"
+	local charset="$(yq r $INPUT_FILE $1.meta.charset)"
+	local name="$(yq r $INPUT_FILE $1.meta.name)"
+	local content="$(yq r $INPUT_FILE $1.meta.content)"
+	echo "<meta charset=\"$charset\" name=\"$name\" content=\"$content\""
+	element "$1.meta.+"
 	echo ">"
 }
 
-body() {
-	echo "<body>"
-	element "$1"
-	echo "</body>"
-}
-
-div() {
-	echo "<div>"
-	element "$1"
-	echo "</div>"
-}
-
-h1() {
-	echo "<h1>"
-	echo "`yq r $INPUT_FILE $1`"
-	echo "</h1>"
-}
-
-multiple() {
+element() {
 	local n=0
 	until [ "$(yq r $INPUT_FILE $1[$n])" = "null" ]; do
-		element "$1[$n].element"
+		# get element name
+		_TYPE="$(yq r $INPUT_FILE $1[$n] | head -n1 | cut -d ':' -f1)"
+		case $_TYPE in
+		"html") html "$1[$n]" ;;
+		"div") div "$1[$n]" ;;
+		"p") p "$1[$n]" ;;
+		"_txt") _txt "$1[$n]" ;;
+		"a") a "$1[$n]" ;;
+		"head") _head "$1[$n]" ;;
+		"title") title "$1[$n]" ;;
+		"meta") meta "$1[$n]" ;;
+		esac
 		let n+=1
 	done
+
 }
 
-element() {
-	_TYPE=$(yq r $INPUT_FILE $1.type)
-
-	case $_TYPE in
-	"html") html "$1.content.element" ;;
-	"multiple") multiple "$1.content" ;;
-	"head") head "$1.content.element" ;;
-	"title") title "$1.content" ;;
-	"meta") meta "$1.content.element" ;;
-	"body") body "$1.content.element" ;;
-	"div") div "$1.content.element" ;;
-	"h1") h1 "$1.content" ;;
-	esac
-}
-
-element "element"
+element "main.+"

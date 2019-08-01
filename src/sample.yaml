@@ -1,0 +1,46 @@
+# Redesigned HTML structure in YAML
+#
+# + = content 
+# + has list of elements (head, body, title)
+
+components:
+  - _googleLink: &googleLink
+      a:
+        class:
+        href: "https://google.com"
+        content: "Google"
+
+main:
+  +:
+    - html:
+        class: "html args"
+        +:
+          - head:
+              +:
+                - meta: 
+                    charset: "UTF-8"
+                    name: "author"
+                    content: "Azim's other personality"
+                - title:
+                    +:
+                      - _txt: "YAML to HTML"
+          - div:
+              class: container
+              +:
+                - p: 
+                    +: 
+                      - _txt: Include html inside anytime
+                      - _txt: Link to <a href='https://google.com'>Google</a>
+          - div:
+              class: container
+              +:
+              - p:
+                  class: paragraph
+                  +:
+                    - _txt: 'Link to'
+                    - a:
+                        class: 
+                        href: https://google.com
+                        +: 
+                          - _txt: Google
+                    - _txt: ' is located here'
