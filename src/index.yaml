@@ -1,40 +1,46 @@
-# <element> := <type>, <content>, [ <class> ... ]
-# <type> := html | body | div | ... | HTML element
-# <content> := <element> { <element> } | "text"
+# Redesigned HTML structure in YAML
+#
+# + = content 
+# + has list of elements (head, body, title)
 
 components:
-  - mainHeading: &mainHeadingReference
-      element:
-        type: "h1" # specifies which element it houses
-        content: "Hello World"
+  - _googleLink: &googleLink
+      a:
+        class:
+        href: "https://google.com"
+        content: "Google"
 
-  - mainHeader: &mainHeaderReference
-      element: 
-        type: "div"
-        class: "container"
-        content: *mainHeadingReference
-
-element:
-  type: "html"
-  content:
-    element:
-      type: "multiple"
-      content:
-        - element:
-            type: "head"
-            content:
-              element: 
-                type: "multiple"
-                content:
-                  - element:
-                      type: "title"
-                      content: "YAML to HTML"
-                  - element:
-                      type: "meta"
-        - element:
-            type: "body"
-            content:
-              element:
-                type: "div"
-                class: "container bg-dark"
-                content: *mainHeaderReference
+main:
+  +:
+    - html:
+        class: "html args"
+        +:
+          - head:
+              +:
+                - meta: 
+                    charset: "UTF-8"
+                    name: "author"
+                    content: "Azim's other personality"
+                - title:
+                    +:
+                      - _txt: "YAML to HTML"
+          - div:
+              class: container
+              +:
+                - p: 
+                    +: 
+                      - _txt: Include html inside anytime
+                      - _txt: Link to <a href='https://google.com'>Google</a>
+          - div:
+              class: container
+              +:
+              - p:
+                  class: paragraph
+                  +:
+                    - _txt: 'Link to'
+                    - a:
+                        class: 
+                        href: https://google.com
+                        +: 
+                          - _txt: Google
+                    - _txt: ' is located here'
