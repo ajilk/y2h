@@ -1,19 +1,40 @@
+# <element> := <type>, <content>, [ <class> ... ]
+# <type> := html | body | div | ... | HTML element
+# <content> := <element> { <element> } | "text"
+
 components:
   - mainHeading: &mainHeadingReference
-      type: "h1" # specifies which element it houses
-      h1: 
+      element:
+        type: "h1" # specifies which element it houses
         content: "Hello World"
 
   - mainHeader: &mainHeaderReference
-      type: "div" 
-      class: "container"
-      div:
+      element: 
+        type: "div"
+        class: "container"
         content: *mainHeadingReference
 
-main:
+element:
+  type: "html"
   content:
-    type: "div"
-    div: { 
-      class: "container", 
-      content: *mainHeaderReference
-    }
+    element:
+      type: "multiple"
+      content:
+        - element:
+            type: "head"
+            content:
+              element: 
+                type: "multiple"
+                content:
+                  - element:
+                      type: "title"
+                      content: "YAML to HTML"
+                  - element:
+                      type: "meta"
+        - element:
+            type: "body"
+            content:
+              element:
+                type: "div"
+                class: "container bg-dark"
+                content: *mainHeaderReference

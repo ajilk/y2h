@@ -1,61 +1,72 @@
-#!/bin/sh
+#!/bin/bash
 
-OUTPUT_FILE="final.html"
-
-main() {
-	echo "<!DOCTYPE>"
-	echo "<html>"
-	echo "<head>"
-	echo "</head>"
-	element "div"
-	echo "</html>"
-
-}
+# Data file that needs to be transpiled to HTML
+INPUT_FILE="index.yaml"
 
 html() {
+	echo "<!DOCTYPE>"
 	echo "<html>"
-	element "head"
-	element "body"
+	element "$1"
 	echo "</html>"
 }
 
 head() {
 	echo "<head>"
-	element "meta"
+	element "$1"
 	echo "</head>"
+}
+
+title() {
+	echo "<title>"
+	echo "`yq r $INPUT_FILE $1`"
+	echo "</title>"
+}
+
+meta() {
+	echo "<meta"
+	element "$1"
+	echo ">"
 }
 
 body() {
 	echo "<body>"
-	element "div"
-	echo "<body>"
-}
-
-meta() {
-	echo "<meta >"
+	element "$1"
+	echo "</body>"
 }
 
 div() {
 	echo "<div>"
-	element "h1" "argument"
+	element "$1"
 	echo "</div>"
 }
 
 h1() {
 	echo "<h1>"
-	echo $1
+	echo "`yq r $INPUT_FILE $1`"
 	echo "</h1>"
 }
 
+multiple() {
+	local n=0
+	until [ "$(yq r $INPUT_FILE $1[$n])" = "null" ]; do
+		element "$1[$n].element"
+		let n+=1
+	done
+}
+
 element() {
-	case $1 in
-	"html") html $2 ;;
-	"head") head $2 ;;
-	"body") body $2 ;;
-	"meta") meta $2 ;;
-	"div") div $2 ;;
-	"h1") h1 $2 ;;
+	_TYPE=$(yq r $INPUT_FILE $1.type)
+
+	case $_TYPE in
+	"html") html "$1.content.element" ;;
+	"multiple") multiple "$1.content" ;;
+	"head") head "$1.content.element" ;;
+	"title") title "$1.content" ;;
+	"meta") meta "$1.content.element" ;;
+	"body") body "$1.content.element" ;;
+	"div") div "$1.content.element" ;;
+	"h1") h1 "$1.content" ;;
 	esac
 }
 
-main "$@"
+element "element"
