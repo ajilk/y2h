@@ -1,4 +1,8 @@
 [ in progress ]
+
+Currently, YAML is longer than HTML defeating the whole point of this project.
+YAML structure would need to be redesigned.
+
 ```
 Out of hate for HTML
 
