@@ -10,7 +10,7 @@ elif [ ! -f $1 ]; then
 fi
 INPUT_FILE="$1"
 
-# Echoes "void" if element is a void element
+# Echoes type of the element (void | nonvoid | _txt | etc.)
 #
 # $1 - element name
 type() {
@@ -66,7 +66,11 @@ process_args() {
 	until [ "$(yq r $INPUT_FILE $1[$n])" = "null" ]; do
 		local _ARG="$(yq r $INPUT_FILE $1[$n] | head -n1 | cut -d ':' -f1)"
 		local _CONTENT="$(yq r $INPUT_FILE $1[$n].$_ARG)"
-		echo -n "$_ARG=\"$_CONTENT\""
+		if [ "$_ARG" == "_txt" ]; then
+			echo -n "$_CONTENT";
+		else
+			echo -n "$_ARG=\"$_CONTENT\""
+		fi
 		let n+=1
 	done
 }
