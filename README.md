@@ -4,7 +4,7 @@ YAML to HTML transcompiler
 
 ![sample](./docs/sample.png)
 
-## [Usage](./docs/intro.md)
+## [Usage](./docs/README.md)
 ```
 NAME:
 
