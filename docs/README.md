@@ -10,7 +10,7 @@
     - <attribute>: ""
   +:
     - <element>
-	- _txt: "Just a Text"
+    - _txt: "Just a Text"
 ```
 
 |           | Description                                                              | Example                     |
