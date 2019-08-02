@@ -92,7 +92,7 @@ messageField: &messageField
                     - name: "Subject"
                     - _txt: "required"
 
-main: &main
+main:
   +:
     - div: 
         args: 
