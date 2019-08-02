@@ -32,10 +32,8 @@ type() {
 # $2 - path to the HTML element
 element() {
 	echo -n "<$1 "
-	# process element arguments
-	process_args "$2.$1.args"
+	process_attrs "$2.$1.attrs"
 	echo ">"
-	# process element content
 	process "$2.$1.+"
 	echo "</$1>"
 }
@@ -45,7 +43,7 @@ element() {
 # $1 - HTML element name (e.g. img, input, area, etc.)
 element_void() {
 	echo -n "<$1 "
-	process_args "$2.$1.args"
+	process_attrs "$2.$1.attrs"
 	echo "/>"
 }
 
@@ -65,23 +63,23 @@ process() {
 		"nonvoid") element "$_ELEMENT" "$_PATH" ;;
 		"_txt") echo "$(yq r $INPUT_FILE $_PATH.$_ELEMENT)" ;;
 		esac
-		let n+=1
+		let i+=1
 	done
 }
 
-# Process element's arguments
+# Process element's attributes
 #
-# $1 - element arguments (specified by <element>.args[*])
-process_args() {
+# $1 - element attributes (specified by <element>.attr[*])
+process_attrs() {
 	local i=0
 	until [ "$(yq r $INPUT_FILE $1[$i])" = "null" ]; do
-		local _ARG="$(yq r $INPUT_FILE $1[$i] | head -n1 | cut -d ':' -f1)"
-		local _VALUE="$(yq r $INPUT_FILE $1[$i].$_ARG)"
-		case "$_ARG" in
+		local _ATTR="$(yq r $INPUT_FILE $1[$i] | head -n1 | cut -d ':' -f1)"
+		local _VALUE="$(yq r $INPUT_FILE $1[$i].$_ATTR)"
+		case "$_ATTR" in
 		"_txt") echo -n "$_VALUE" ;;
-		*) echo -n "$_ARG=\"$_VALUE\"" ;;
+		*) echo -n "$_ATTR=\"$_VALUE\"" ;;
 		esac
-		let n+=1
+		let i+=1
 	done
 }
 

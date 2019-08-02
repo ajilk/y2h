@@ -4,15 +4,15 @@
 
 firstNameField: &firstNameField
   div: 
-    args:
+    attrs:
       - class: "form-row"
     +:
       - div: 
-          args:
+          attrs:
               - class: "col-lg-4 mb-3"
           +:
               - input: 
-                  args:
+                  attrs:
                     - type: "text"
                     - class: "form-control border border-dark rounded-0"
                     - id: "firstName"
@@ -22,15 +22,15 @@ firstNameField: &firstNameField
 
 lastNameField: &lastNameField
   div: 
-    args:
+    attrs:
       - class: "form-row"
     +:
       - div: 
-          args:
+          attrs:
               - class: "col-lg-8"
           +:
               - input: 
-                  args:
+                  attrs:
                     - type: "text"
                     - class: "form-control border border-dark rounded-0"
                     - id: "email"
@@ -40,15 +40,15 @@ lastNameField: &lastNameField
 
 emailField: &emailField
   div: 
-    args:
+    attrs:
       - class: "form-row"
     +:
       - div: 
-          args:
+          attrs:
               - class: "col-lg-4 mb-3"
           +:
               - input: 
-                  args:
+                  attrs:
                     - type: "email"
                     - class: "form-control border border-dark rounded-0"
                     - id: "lastName"
@@ -58,15 +58,15 @@ emailField: &emailField
 
 subjectField: &subjectField
   div: 
-    args:
+    attrs:
       - class: "form-row"
     +:
       - div: 
-          args:
+          attrs:
               - class: "col-lg-8"
           +:
               - input: 
-                  args:
+                  attrs:
                     - type: "text"
                     - class: "form-control border border-dark rounded-0"
                     - id: "subject"
@@ -76,15 +76,15 @@ subjectField: &subjectField
 
 messageField: &messageField
   div: 
-    args:
+    attrs:
       - class: "form-row"
     +:
       - div: 
-          args:
+          attrs:
               - class: "col-lg-8"
           +:
               - input: 
-                  args:
+                  attrs:
                     - type: "text"
                     - class: "form-control border border-dark rounded-0"
                     - id: "subject"
@@ -95,22 +95,22 @@ messageField: &messageField
 main:
   +:
     - div: 
-        args: 
+        attrs: 
           - class: "container"
         +: 
           - p: 
-              args: 
+              attrs: 
                 - class: "display-4"
               +:
                 - _txt: "Contact"
           - form:
-              args:
+              attrs:
                 - class: "pt-5"
                 - action: "https://formspree.io/ajilkhomov@gmail.com" 
                 - method: "POST"
               +: 
                 - h4: 
-                    args: 
+                    attrs: 
                       - class: "pb-3"
                     +:
                       - _txt: "Let's Chat"
