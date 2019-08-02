@@ -1,0 +1,121 @@
+# https://github.com/ajilk/ajilk.github.io/blob/528d9cf1aa66f92e79dc6e6bfa93210d8b17bec6/contact.html
+# Reconstruction of the above HTML file using YAML
+# ./y2h.sh examples/contact.yaml -> contact.html
+
+firstNameField: &firstNameField
+  div: 
+    args:
+      - class: "form-row"
+    +:
+      - div: 
+          args:
+              - class: "col-lg-4 mb-3"
+          +:
+              - input: 
+                  args:
+                    - type: "text"
+                    - class: "form-control border border-dark rounded-0"
+                    - id: "firstName"
+                    - placeholder: "First Name"
+                    - name: "First Name"
+                    - _txt: "required"
+
+lastNameField: &lastNameField
+  div: 
+    args:
+      - class: "form-row"
+    +:
+      - div: 
+          args:
+              - class: "col-lg-8"
+          +:
+              - input: 
+                  args:
+                    - type: "text"
+                    - class: "form-control border border-dark rounded-0"
+                    - id: "email"
+                    - placeholder: "Email"
+                    - name: "Email"
+                    - _txt: "required"
+
+emailField: &emailField
+  div: 
+    args:
+      - class: "form-row"
+    +:
+      - div: 
+          args:
+              - class: "col-lg-4 mb-3"
+          +:
+              - input: 
+                  args:
+                    - type: "email"
+                    - class: "form-control border border-dark rounded-0"
+                    - id: "lastName"
+                    - placeholder: "Last Name"
+                    - name: "Last Name"
+                    - _txt: "required"
+
+subjectField: &subjectField
+  div: 
+    args:
+      - class: "form-row"
+    +:
+      - div: 
+          args:
+              - class: "col-lg-8"
+          +:
+              - input: 
+                  args:
+                    - type: "text"
+                    - class: "form-control border border-dark rounded-0"
+                    - id: "subject"
+                    - placeholder: "Subject"
+                    - name: "Subject"
+                    - _txt: "required"
+
+messageField: &messageField
+  div: 
+    args:
+      - class: "form-row"
+    +:
+      - div: 
+          args:
+              - class: "col-lg-8"
+          +:
+              - input: 
+                  args:
+                    - type: "text"
+                    - class: "form-control border border-dark rounded-0"
+                    - id: "subject"
+                    - placeholder: "Subject"
+                    - name: "Subject"
+                    - _txt: "required"
+
+main: &main
+  +:
+    - div: 
+        args: 
+          - class: "container"
+        +: 
+          - p: 
+              args: 
+                - class: "display-4"
+              +:
+                - _txt: "Contact"
+          - form:
+              args:
+                - class: "pt-5"
+                - action: "https://formspree.io/ajilkhomov@gmail.com" 
+                - method: "POST"
+              +: 
+                - h4: 
+                    args: 
+                      - class: "pb-3"
+                    +:
+                      - _txt: "Let's Chat"
+                - *firstNameField
+                - *lastNameField
+                - *emailField
+                - *subjectField
+                - *messageField

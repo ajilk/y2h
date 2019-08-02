@@ -41,8 +41,8 @@ main:
                   +:
                     - _txt: 'Link to'
                     - a:
-                        class: 
-                        href: https://google.com
+                        args:
+                          - href: https://google.com
                         +: 
                           - _txt: Google
                     - _txt: ' is located here'
