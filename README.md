@@ -15,5 +15,4 @@ SYNOPSIS
 	./y2h.sh <datafile.yaml>
 
 	y2h allows you to write HTML without writing in HTML.
-	<datafile.yaml> must be in the correct format
 ```
