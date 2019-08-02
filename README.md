@@ -1,16 +1,19 @@
-[ in progress ]
+# y2h
 
-Currently, YAML is longer than HTML defeating the whole point of this project.
-YAML structure would need to be redesigned.
+YAML to HTML transcompiler
 
+![sample](./docs/sample.png)
+
+## [Usage](./docs/intro.md)
 ```
-Out of hate for HTML
+NAME:
 
-NAME: 
-	y2h - YAML to HTML compiler
+	y2h - YAML to HTML transcompiler
+
 SYNOPSIS
-	y2h [] name
-DESCRIPTION
-	y2h transcompiles YAML to HTML
-EXAMPLES
+
+	./y2h.sh <datafile.yaml>
+
+	y2h allows you to write HTML without writing in HTML.
+	<datafile.yaml> must be in the correct format
 ```
