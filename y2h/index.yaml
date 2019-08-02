@@ -13,19 +13,21 @@ components:
 main:
   +:
     - html:
-        class: "html args"
+        args: 
         +:
           - head:
               +:
                 - meta: 
-                    charset: "UTF-8"
-                    name: "author"
-                    content: "Azim's other personality"
+                    args:
+                      - charset: "UTF-8"
+                      - name: "author"
+                      - content: "Azim's other personality"
                 - title:
                     +:
                       - _txt: "YAML to HTML"
           - div:
-              class: container
+              args:
+                - class: container
               +:
                 - p: 
                     +: 
