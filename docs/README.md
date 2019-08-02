@@ -60,7 +60,7 @@ structure I came up with.
     - <attribute>: ""
   +:
     - <element>
-	- _txt: "Just a Text"
+    - _txt: "Just a Text"
 ```
 
 It seems simple but gets very messy really quick. So the element is defined
