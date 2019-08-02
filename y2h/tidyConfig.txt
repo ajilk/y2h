@@ -1,6 +1,0 @@
-quiet: yes
-indent: yes
-indent-spaces: 2
-show-warnings: no
-tidy-mark: no
-wrap: 120

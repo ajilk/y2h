@@ -2,19 +2,21 @@
 
 # Check file argument and that it exists
 if [ $# -eq 0 ]; then
-	echo "usage: ./y2h.sh <datafile>.yaml"
+	echo "usage: ./y2h.sh <datafile.yaml>"
 	exit
 elif [ ! -f $1 ]; then
 	echo "$1: File not found!"
 	exit
 fi
+
 INPUT_FILE="$1"
 
 # Echoes type of the element (void | nonvoid | _txt | etc.)
 #
-# $1 - element name
+# $1 - Element name
 type() {
 	local type=""
+
 	case "$1" in
 	"_txt") type="_txt" ;;
 	"img" | "input" | "hr" | "area" | "link" | "br" | "meta" | "base" | "col" | "embed" | "keygen" | "param" | "source" | "track" | "wbr") type="void" ;;
@@ -24,9 +26,9 @@ type() {
 	echo $type
 }
 
-# Return formatted HTML element
+# Return formatted nonvoid HTML element
 #
-# $1 - HTML element (e.g. html, body, div, etc.)
+# $1 - HTML element name (e.g. html, body, div, etc.)
 # $2 - path to the HTML element
 element() {
 	echo -n "<$1 "
@@ -38,18 +40,24 @@ element() {
 	echo "</$1>"
 }
 
+# Return formatted void HTML element
+#
+# $1 - HTML element name (e.g. img, input, area, etc.)
 element_void() {
 	echo -n "<$1 "
 	process_args "$2.$1.args"
 	echo "/>"
 }
 
+# Process element's content accordingly
+#
+# $1 - element content (specified by <element>.+[*])
 process() {
-	local n=0
-	until [ "$(yq r $INPUT_FILE $1[$n])" = "null" ]; do
+	local i=0
+	until [ "$(yq r $INPUT_FILE $1[$i])" = "null" ]; do
 		# get process name
-		local _ELEMENT="$(yq r $INPUT_FILE $1[$n] | head -n1 | cut -d ':' -f1)"
-		local _PATH="$1[$n]"
+		local _ELEMENT="$(yq r $INPUT_FILE $1[$i] | head -n1 | cut -d ':' -f1)"
+		local _PATH="$1[$i]"
 		local _TYPE=$(type "$_ELEMENT")
 
 		case $_TYPE in
@@ -61,22 +69,21 @@ process() {
 	done
 }
 
+# Process element's arguments
+#
+# $1 - element arguments (specified by <element>.args[*])
 process_args() {
-	local n=0
-	until [ "$(yq r $INPUT_FILE $1[$n])" = "null" ]; do
-		local _ARG="$(yq r $INPUT_FILE $1[$n] | head -n1 | cut -d ':' -f1)"
-		local _CONTENT="$(yq r $INPUT_FILE $1[$n].$_ARG)"
-		if [ "$_ARG" == "_txt" ]; then
-			echo -n "$_CONTENT";
-		else
-			echo -n "$_ARG=\"$_CONTENT\""
-		fi
+	local i=0
+	until [ "$(yq r $INPUT_FILE $1[$i])" = "null" ]; do
+		local _ARG="$(yq r $INPUT_FILE $1[$i] | head -n1 | cut -d ':' -f1)"
+		local _VALUE="$(yq r $INPUT_FILE $1[$i].$_ARG)"
+		case "$_ARG" in
+		"_txt") echo -n "$_VALUE" ;;
+		*) echo -n "$_ARG=\"$_VALUE\"" ;;
+		esac
 		let n+=1
 	done
 }
 
-debug() {
-	printf "%b" "\e[1;31m$1\e[0m"
-}
-
+# Being process in the main content
 process "main.+"
